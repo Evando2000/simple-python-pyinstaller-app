@@ -20,11 +20,8 @@ node {
                 unstash(name: 'compiled-results') 
                 sh "docker run --rm -v \$(pwd)/sources:/src cdrx/pyinstaller-linux:python2 'pyinstaller -F add2vals.py'" 
             } 
-            def currentResult = currentBuild.result ?: 'SUCCESS'
-            if (currentResult == 'SUCCESS') {
-                archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals" 
-                sh "docker run --rm -v \$(pwd)/sources:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist'"
-            }
+            archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals" 
+            sh "docker run --rm -v \$(pwd)/sources:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist'"
         }
     }
 }
